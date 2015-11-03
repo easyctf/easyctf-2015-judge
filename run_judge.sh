@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 BASE_DIR=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
+OUTPUT_FILE="judge.log"
 cd ${BASE_DIR}
 
 git reset --hard
@@ -13,6 +14,15 @@ wait_for_exit(){
         done
     done
 }
+
+if [ -e ${OUTPUT_FILE} ]
+then
+    for i in {1..5}
+    do
+        echo >> ${OUTPUT_FILE}
+    done
+    echo "Restarting judge..." >> ${OUTPUT_FILE}
+fi
 
 if [ -e judge.pid ]
 then
@@ -29,5 +39,5 @@ then
 else
     echo "db_setup.sh missing"
 fi
-BASE_DIR=${BASE_DIR} nohup python3 main.py &
+BASE_DIR=${BASE_DIR} nohup python3 main.py > ${OUTPUT_FILE} &
 echo -n $! > judge.pid
