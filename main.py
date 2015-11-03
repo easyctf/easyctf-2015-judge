@@ -43,7 +43,7 @@ signals:
 - t: Program timed out
 '''
 
-def program_return(doc, token, signal, message, logfile):
+def program_return(doc, token, signal, message, programdir, logfile):
     pid = doc['pid']
     update = {
         'done': True,
@@ -98,14 +98,14 @@ def run_program(doc):
     debug(logfile, 'Locating program...')
     filename = envdir + os.sep + 'program.' + extensions[language]
     if not os.path.exists(filename):
-        return program_return(doc, token, 'm', 'Program is missing', logfile)
+        return program_return(doc, token, 'm', 'Program is missing', programdir, logfile)
     debug(logfile, 'Located program.\n')
 
     # switch user to program
     # os.setgid(1001)
     # os.setuid(1001)
 
-    Timer(80, program_return, (doc, token, 't', 'Program ran too long.', logfile))
+    Timer(80, program_return, (doc, token, 't', 'Program ran too long.', programdir, logfile))
     subprocess.call('sudo chown -R user:user ' + envdir, shell=True)
     subprocess.call('sudo chmod -R 0777 ' + envdir, shell=True)
 
@@ -115,7 +115,7 @@ def run_program(doc):
     os.chdir(envdir)
     print(os.getcwd())
     if language == 'c':
-        program_return(doc, token, 'l', 'Language not implemented', logfile)
+        program_return(doc, token, 'l', 'Language not implemented', programdir, logfile)
         return
     elif language == 'java':
         try:
@@ -124,7 +124,7 @@ def run_program(doc):
         except subprocess.CalledProcessError as error:
             debug(logfile, 'Failed to compile.\n')
             debug(logfile, error.output.decode(encoding='UTF-8'))
-            program_return(doc, token, 'c', 'Didn\'t compile or compiled with an error. Check your syntax.', logfile)
+            program_return(doc, token, 'c', 'Didn\'t compile or compiled with an error. Check your syntax.', programdir, logfile)
             return
     elif language == 'python3':
         try:
@@ -134,7 +134,7 @@ def run_program(doc):
             # shiet
             debug(logfile, 'Failed to compile.\n')
             debug(logfile, error.output.decode(encoding='UTF-8'))
-            program_return(doc, token, 'c', 'Didn\'t compile or compiled with an error. Check your syntax.', logfile)
+            program_return(doc, token, 'c', 'Didn\'t compile or compiled with an error. Check your syntax.', programdir, logfile)
             return
     elif language == 'python2':
         try:
@@ -144,7 +144,7 @@ def run_program(doc):
             # shiet
             debug(logfile, 'Failed to compile.\n')
             debug(logfile, error.output.decode(encoding='UTF-8'))
-            program_return(doc, token, 'c', 'Didn\'t compile or compiled with an error. Check your syntax.', logfile)
+            program_return(doc, token, 'c', 'Didn\'t compile or compiled with an error. Check your syntax.', programdir, logfile)
             return
     os.chdir(original_cwd)
 
@@ -154,19 +154,19 @@ def run_program(doc):
         generator = imp.load_source(doc['pid'],
                                     BASE_DIR + os.sep + 'generators' + os.sep + doc['pid'] + '.py')
     except Exception as e:
-        program_return(doc, token, 'e', 'An error occurred (2). Please notify an admin immediately.', logfile)
+        program_return(doc, token, 'e', 'An error occurred (2). Please notify an admin immediately.', programdir, logfile)
         debug(logfile, 'Could not open generator %s.\n' + e.output.decode(encoding='UTF-8'))
         return
     if 'generate' in dir(generator):
         result = generator.generate(datadir)
         if result == 0:
-            program_return(doc, token, 'e', 'An error occurred (1). Please notify an admin immediately.', logfile)
+            program_return(doc, token, 'e', 'An error occurred (1). Please notify an admin immediately.', programdir, logfile)
             debug(logfile, 'Generation failed.\n')
             return
         else:
             debug(logfile, 'Generated inputs.\n')
     else:
-        program_return(doc, token, 'e', 'An error occurred (2). Please notify an admin immediately.', logfile)
+        program_return(doc, token, 'e', 'An error occurred (2). Please notify an admin immediately.', programdir, logfile)
         debug(logfile, 'Could not open generator.\n')
         return
 
@@ -195,14 +195,14 @@ def run_program(doc):
                 subprocess.call('sudo chown -R user:easyctf ' + testtarget, shell=True)
             subprocess.call('sudo chown -R user:user ' + envdir, shell=True)
         except Exception as e:
-            program_return(doc, token, '0', 'Error({0}): {1}'.format(e.errno, e.strerror), logfile)
+            program_return(doc, token, '0', 'Error({0}): {1}'.format(e.errno, e.strerror), programdir, logfile)
 
         # os.setuid(1001)
         # os.setgid(1001)
         debug(logfile, 'Running test ' + str(i + 1) + '...\n')
         try:
             if language == 'c':
-                program_return(doc, token, 'l', 'Language not implemented', logfile)
+                program_return(doc, token, 'l', 'Language not implemented', programdir, logfile)
             elif language == 'java':
                 output = subprocess.check_output('sudo -u user java program', shell=True, cwd=envdir, timeout=1,
                                                  stderr=subprocess.STDOUT)
@@ -219,13 +219,13 @@ def run_program(doc):
                 output = '\n'.join([('>>> ' + x) for x in (output.decode('utf-8')).split('\n')])
                 debug(logfile, 'Program output:\n' + output)
         except subprocess.TimeoutExpired as error:
-            program_return(doc, token, 't', 'Program timed out.', logfile)
+            program_return(doc, token, 't', 'Program timed out.', programdir, logfile)
             return
         except subprocess.CalledProcessError as error:
-            program_return(doc, token, 'b', 'Program crashed: ' + error.output.decode(encoding='UTF-8'), logfile)
+            program_return(doc, token, 'b', 'Program crashed: ' + error.output.decode(encoding='UTF-8'), programdir, logfile)
             return
         except Exception as error:
-            program_return(doc, token, 'e', 'Unknown error: ' + error.output.decode(encoding='UTF-8'), logfile)
+            program_return(doc, token, 'e', 'Unknown error: ' + error.output.decode(encoding='UTF-8'), programdir, logfile)
             return
 
         # os.setuid(1000)
@@ -235,7 +235,7 @@ def run_program(doc):
         actualoutput = envdir + os.sep + doc['pid'] + '.out'
         if not (os.path.exists(actualoutput)):
             debug(logfile, 'Output not found.')
-            program_return(doc, token, 'o', 'Your program didn\'t produce an output (%s.out).' % doc['pid'], logfile)
+            program_return(doc, token, 'o', 'Your program didn\'t produce an output (%s.out).' % doc['pid'], programdir, logfile)
             return
 
         correctoutput = datadir + os.sep + 'test' + str(i) + '.out'
@@ -251,13 +251,13 @@ def run_program(doc):
             debug(logfile, repr(open(correctoutput).read()))
             debug(logfile, 'Your program output:')
             debug(logfile, repr(open(actualoutput).read()))
-            program_return(doc, token, 'x', 'You got the problem wrong. Check the log for details.', logfile)
+            program_return(doc, token, 'x', 'You got the problem wrong. Check the log for details.', programdir, logfile)
             return
         print('FINISHED')
 
     # dude nice
     debug(logfile, 'Congratulations! You\'ve correctly solved ' + doc['pid'] + '!')
-    program_return(doc, token, '*', 'Correct!', logfile)
+    program_return(doc, token, '*', 'Correct!', programdir, logfile)
     return
 
 import signal
