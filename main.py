@@ -79,7 +79,7 @@ def run_program(doc):
     token = doc['token']
     language = doc['language']
 
-    programdir = '/programs' + os.sep + token
+    programdir = BASE_DIR + 'programs' + os.sep + token
     envdir = programdir + os.sep + 'env'
     datadir = programdir + os.sep + 'data'
     logfile = programdir + os.sep + 'stdout.log'
