@@ -88,8 +88,8 @@ def run_program(doc):
     # open(logfile, 'w')
     # os.chmod(logfile, 660)
     # os.chown(logfile, 1001, 1000)
-    subprocess.call('mkdir -p ' + programdir)
-    subprocess.call('sudo chown user:easyctf ' + programdir)
+    subprocess.call('mkdir -p ' + programdir, shell=True)
+    subprocess.call('sudo chown user:easyctf ' + programdir, shell=True)
     subprocess.call('sudo -u user touch ' + logfile, shell=True)
     subprocess.call('sudo chown user:easyctf ' + programdir + os.sep + 'stdout.log', shell=True)
     subprocess.call('sudo chmod 664 ' + programdir + os.sep + 'stdout.log', shell=True)
@@ -280,13 +280,14 @@ if __name__ == "__main__":
         if killer.kill_now:
             print('Exiting...')
             break
-        possprogram = db.programs.find({
+        possticket = db.programs.find({
             'claimed': {'$lt': int(time.time()) - JUDGE_TIMEOUT},
             'done': False,
         }).sort(list({'timestamp': 1}.items())).limit(1)
-        if possprogram.count():
-            program = possprogram[0]
-            db.programs.update_one({'token': program['token']}, {'$set': {'claimed': int(time.time())}})
-            run_program(program)
+        if possticket.count():
+            ticket = possticket[0]
+            print('Running program %s' % ticket['token'])
+            db.programs.update_one({'token': ticket['token']}, {'$set': {'claimed': int(time.time())}})
+            run_program(ticket)
         else:
             time.sleep(0.5)
