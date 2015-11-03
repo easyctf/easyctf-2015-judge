@@ -8,13 +8,16 @@ import subprocess
 
 import pymongo
 
+REQUIRED_ARGUMENTS = ['BASE_DIR', 'DB_USER', 'DB_PASS']
 BASE_DIR = None
 DB_USER = None
 DB_PASS = None
-for envvar in ['BASE_DIR', 'DB_USER', 'DB_PASS']:
-    if envvar not in os.environ:
-        print('%s not set!' % envvar)
-    else:
+
+missing_arguments = filter(lambda x: x not in os.environ, REQUIRED_ARGUMENTS)
+if missing_arguments:
+    print('%s not set!' % ', '.join(missing_arguments))
+    exit(0)
+for envvar in REQUIRED_ARGUMENTS:
         locals()[envvar] = os.environ[envvar]
 
 JUDGE_TIMEOUT = 60
