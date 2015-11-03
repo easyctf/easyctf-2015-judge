@@ -1,6 +1,5 @@
 .idea
 *.pyc
-judge.pid
 db_setup.sh
 judge.log
 programs
