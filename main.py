@@ -101,7 +101,7 @@ def run_program(doc):
     # open(logfile, 'w')
     # os.chmod(logfile, 660)
     # os.chown(logfile, 1001, 1000)
-    subprocess.call('sudo -u user touch ' + logfile, shell=True)
+    subprocess.call('sudo touch ' + logfile, shell=True)
     subprocess.call('sudo chown user:easyctf ' + logfile, shell=True)
     subprocess.call('sudo chmod 664 ' + logfile, shell=True)
 
