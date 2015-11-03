@@ -38,4 +38,4 @@ then
     echo "db_setup.sh missing"
 fi
 tmux kill-session -t ctfjudge 2>/dev/null
-tmux new-session -s ctfjudge -d ". ./db_setup.sh && BASE_DIR=${BASE_DIR} python3 main.py |& tee ${OUTPUT_FILE}"
+tmux new-session -s ctfjudge -d "cd ${BASE_DIR} && . ./db_setup.sh && BASE_DIR=${BASE_DIR} python3 main.py |& tee ${OUTPUT_FILE}"
