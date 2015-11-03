@@ -91,8 +91,8 @@ def run_program(doc):
     subprocess.call('mkdir -p ' + programdir, shell=True)
     subprocess.call('sudo chown user:easyctf ' + programdir, shell=True)
     subprocess.call('sudo -u user touch ' + logfile, shell=True)
-    subprocess.call('sudo chown user:easyctf ' + programdir + os.sep + 'stdout.log', shell=True)
-    subprocess.call('sudo chmod 664 ' + programdir + os.sep + 'stdout.log', shell=True)
+    subprocess.call('sudo chown user:easyctf ' + logfile, shell=True)
+    subprocess.call('sudo chmod 664 ' + logfile, shell=True)
 
     # verify upload
     debug(logfile, 'Locating program...')
