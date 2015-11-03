@@ -46,18 +46,20 @@ signals:
 '''
 
 def program_return(doc, token, signal, message, programdir, logfile):
-    pid = doc['pid']
-    update = {
-        'done': True,
-        'signal': signal,
-        'message': message,
-        'log': open(logfile, 'r').read(),
-        'grader': HOSTNAME
-    }
-    if update['signal'] == '*':
-        flag = db.problems.find_one({'pid': pid})['flag']
-        update['flag'] = flag
-    db.programs.update_one({'token': token}, {'$set': update})
+    ticket = db.programs.find({"token": token})
+    if not ticket['done']:
+        pid = ticket['pid']
+        update = {
+            'done': True,
+            'signal': signal,
+            'message': message,
+            'log': open(logfile, 'r').read(),
+            'grader': HOSTNAME
+        }
+        if update['signal'] == '*':
+            flag = db.problems.find_one({'pid': pid})['flag']
+            update['flag'] = flag
+        db.programs.update_one({'token': token}, {'$set': update})
     os.chdir(BASE_DIR)
     shutil.rmtree(programdir)
 
