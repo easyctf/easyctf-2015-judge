@@ -299,6 +299,9 @@ if __name__ == "__main__":
             ticket = possticket[0]
             print('Running program %s' % ticket['token'])
             db.programs.update_one({'token': ticket['token']}, {'$set': {'claimed': int(time.time())}})
-            run_program(ticket)
+            try:
+                run_program(ticket)
+            except:
+                print('Program run failed.')
         else:
             time.sleep(0.5)
