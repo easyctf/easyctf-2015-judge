@@ -3,7 +3,7 @@
 BASE_DIR=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
 cd ${BASE_DIR}
 
-git reset --hard
+#git reset --hard
 git pull
 
 wait_for_exit(){
@@ -17,7 +17,7 @@ wait_for_exit(){
 if [ -e judge.pid ]
 then
     prevpid=$(cat judge.pid)
-    if [ -n ${prevpid} && kill -0 ${prevpid} ]
+    if [ -n ${prevpid} ] && kill -0 ${prevpid} 2>/dev/null
     then
         kill ${prevpid}
         wait_for_exit ${prevpid}
@@ -25,9 +25,9 @@ then
 fi
 if [ -e db_setup.sh ]
 then
-    . db_setup.sh
+    . ./db_setup.sh
 else
     echo "db_setup.sh missing"
 fi
-nohup python3 main.py &
+BASE_DIR=${BASE_DIR} nohup python3 main.py &
 echo -n $! > judge.pid

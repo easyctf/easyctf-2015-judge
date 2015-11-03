@@ -52,7 +52,7 @@ def program_return(doc, token, signal, message):
         flag = db.problems.find_one({'pid': pid})['flag']
         update['flag'] = flag
     db.programs.update_one({'token': token}, {'$set': update})
-    os.chdir('/home/easyctf/easyctf')
+    os.chdir(BASE_DIR)
     shutil.rmtree('/programs' + os.sep + token)
 
 
@@ -72,22 +72,22 @@ def debug(fullpath, message):
 
 
 def run_program(doc):
-    os.chdir('/home/easyctf/easyctf')
+    os.chdir(BASE_DIR)
     token = doc['token']
     language = doc['language']
 
-    basedir = '/programs' + os.sep + token
-    envdir = basedir + os.sep + 'env'
-    datadir = basedir + os.sep + 'data'
-    logfile = basedir + os.sep + 'stdout.log'
+    programdir = '/programs' + os.sep + token
+    envdir = programdir + os.sep + 'env'
+    datadir = programdir + os.sep + 'data'
+    logfile = programdir + os.sep + 'stdout.log'
 
     # create output file
     # open(logfile, 'w')
     # os.chmod(logfile, 660)
     # os.chown(logfile, 1001, 1000)
     subprocess.call('sudo -u user touch ' + logfile, shell=True)
-    subprocess.call('sudo chown user:easyctf ' + basedir + os.sep + 'stdout.log', shell=True)
-    subprocess.call('sudo chmod 664 ' + basedir + os.sep + 'stdout.log', shell=True)
+    subprocess.call('sudo chown user:easyctf ' + programdir + os.sep + 'stdout.log', shell=True)
+    subprocess.call('sudo chmod 664 ' + programdir + os.sep + 'stdout.log', shell=True)
 
     # verify upload
     debug(logfile, 'Locating program...')
@@ -277,8 +277,8 @@ if __name__ == "__main__":
             break
         possprogram = db.programs.find({
             'claimed': {'$lt': int(time.time()) - JUDGE_TIMEOUT},
-            'done': {'$eq': False},
-        }).sort({'timestamp': 1}).limit(1)
+            'done': False,
+        }).sort(list({'timestamp': 1}.items())).limit(1)
         if possprogram.count():
             program = possprogram[0]
             db.programs.update_one({'token': program['token']}, {'$set': {'claimed': int(time.time())}})

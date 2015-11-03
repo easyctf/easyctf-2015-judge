@@ -2,3 +2,4 @@
 *.pyc
 judge.pid
 db_setup.sh
+nohup.out
