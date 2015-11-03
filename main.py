@@ -5,6 +5,7 @@ import os.path
 import shutil
 from threading import Timer
 import subprocess
+import sys
 
 import pymongo
 
@@ -44,6 +45,10 @@ signals:
 - m: Program is missing
 - t: Program timed out
 '''
+
+def printflush(*args, **kwargs):
+    print(*args, **kwargs)
+    sys.stdout.flush()
 
 def program_return(doc, token, signal, message, programdir, logfile):
     pid = doc['pid']
@@ -192,16 +197,16 @@ def run_program(doc):
         # os.setuid(1000)
         # os.setgid(1000)
         try:
-            print(os.popen('id').read())
-            print(os.getcwd())
+            printflush(os.popen('id').read())
+            printflush(os.getcwd())
             # copy input file to env folder
             debug(logfile, 'Loading test ' + str(i + 1) + '...\n')
             testfile = datadir + os.sep + 'test' + str(i) + '.in'
-            print(os.listdir(datadir))
+            printflush(os.listdir(datadir))
             if os.path.exists(testfile):
                 testtarget = envdir + os.sep + doc['pid'] + '.in'
                 if os.path.exists(testtarget): subprocess.call('sudo rm ' + testtarget, shell=True)
-                print(os.listdir(envdir))
+                printflush(os.listdir(envdir))
                 shutil.copyfile(testfile, testtarget)
                 subprocess.call('sudo chown -R user:easyctf ' + testtarget, shell=True)
             subprocess.call('sudo chown -R user:user ' + envdir, shell=True)
@@ -252,7 +257,7 @@ def run_program(doc):
         correctoutput = datadir + os.sep + 'test' + str(i) + '.out'
         if filecmp.cmp(actualoutput, correctoutput):
             debug(logfile, 'Test ' + str(i + 1) + ' correct!\n')
-            print('***Test %d completed!***' % (i + 1))
+            printflush('***Test %d completed!***' % (i + 1))
             continue
         else:
             debug(logfile, 'Test ' + str(i + 1) + ' wrong.\n')
@@ -264,7 +269,7 @@ def run_program(doc):
             debug(logfile, repr(open(actualoutput).read()))
             program_return(doc, token, 'x', 'You got the problem wrong. Check the log for details.', programdir, logfile)
             return
-        print('FINISHED')
+        printflush('FINISHED')
 
     # dude nice
     debug(logfile, 'Congratulations! You\'ve correctly solved ' + doc['pid'] + '!')
@@ -289,7 +294,7 @@ if __name__ == "__main__":
     killer = GracefulKiller()
     while True:
         if killer.kill_now:
-            print('Exiting...')
+            printflush('Exiting...')
             break
         possticket = db.programs.find({
             'claimed': {'$lt': int(time.time()) - JUDGE_TIMEOUT},
@@ -297,11 +302,11 @@ if __name__ == "__main__":
         }).sort(list({'timestamp': 1}.items())).limit(1)
         if possticket.count():
             ticket = possticket[0]
-            print('Running program %s' % ticket['token'])
+            printflush('Running program %s' % ticket['token'])
             db.programs.update_one({'token': ticket['token']}, {'$set': {'claimed': int(time.time())}})
             try:
                 run_program(ticket)
             except:
-                print('Program run failed.')
+                printflush('Program run failed.')
         else:
             time.sleep(0.5)
