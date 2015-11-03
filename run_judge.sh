@@ -3,7 +3,7 @@
 BASE_DIR=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
 cd ${BASE_DIR}
 
-#git reset --hard
+git reset --hard
 git pull
 
 wait_for_exit(){
