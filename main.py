@@ -13,7 +13,7 @@ BASE_DIR = None
 DB_USER = None
 DB_PASS = None
 
-missing_arguments = filter(lambda x: x not in os.environ, REQUIRED_ARGUMENTS)
+missing_arguments = list(filter(lambda x: x not in os.environ, REQUIRED_ARGUMENTS))
 if missing_arguments:
     print('%s not set!' % ', '.join(missing_arguments))
     exit(0)
