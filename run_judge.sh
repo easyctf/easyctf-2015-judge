@@ -9,7 +9,7 @@ git pull
 
 wait_for_exit(){
     for pid in "$@"; do
-        while kill -0 "$pid"; do
+        while kill -0 "$pid" 2>/dev/null; do
             sleep 0.5
         done
     done

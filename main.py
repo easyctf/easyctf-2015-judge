@@ -13,6 +13,8 @@ BASE_DIR = None
 DB_USER = None
 DB_PASS = None
 
+HOSTNAME = os.uname()[1]
+
 missing_arguments = list(filter(lambda x: x not in os.environ, REQUIRED_ARGUMENTS))
 if missing_arguments:
     print('%s not set!' % ', '.join(missing_arguments))
@@ -49,7 +51,8 @@ def program_return(doc, token, signal, message, programdir, logfile):
         'done': True,
         'signal': signal,
         'message': message,
-        'log': open(logfile, 'r').read()
+        'log': open(logfile, 'r').read(),
+        'grader': HOSTNAME
     }
     if update['signal'] == '*':
         flag = db.problems.find_one({'pid': pid})['flag']
