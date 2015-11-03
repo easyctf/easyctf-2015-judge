@@ -33,11 +33,9 @@ then
         wait_for_exit ${prevpid}
     fi
 fi
-if [ -e db_setup.sh ]
+if [ -ne db_setup.sh ]
 then
-    . ./db_setup.sh
-else
     echo "db_setup.sh missing"
 fi
-BASE_DIR=${BASE_DIR} nohup python3 main.py >> ${OUTPUT_FILE} &
-echo -n $! > judge.pid
+tmux kill-session -t ctfjudge 2>/dev/null
+tmux new-session -s ctfjudge -d ". ./db_setup.sh && BASE_DIR=${BASE_DIR} python3 main.py |& tee ${OUTPUT_FILE}"
