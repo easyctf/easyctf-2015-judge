@@ -39,5 +39,5 @@ then
 else
     echo "db_setup.sh missing"
 fi
-BASE_DIR=${BASE_DIR} nohup -u python3 main.py >> ${OUTPUT_FILE} &
+BASE_DIR=${BASE_DIR} nohup python3 main.py >> ${OUTPUT_FILE} &
 echo -n $! > judge.pid
