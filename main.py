@@ -89,7 +89,7 @@ def run_program(doc):
     os.popen("sudo chown user:easyctf " + programdir)
     os.makedirs(programdir + os.sep + "env", 0o777)
     os.makedirs(programdir + os.sep + "data", 0o750)
-    file = open(programdir + os.sep + "env" + os.sep + "program." + extensions[language], "w")
+    file = open(envdir + os.sep + "program." + extensions[language], "w")
     file.write(program + "\n")
     file.close()
 
