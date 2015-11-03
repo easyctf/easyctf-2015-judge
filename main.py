@@ -79,7 +79,7 @@ def run_program(doc):
     token = doc['token']
     language = doc['language']
 
-    programdir = BASE_DIR + 'programs' + os.sep + token
+    programdir = BASE_DIR + os.sep + 'programs' + os.sep + token
     envdir = programdir + os.sep + 'env'
     datadir = programdir + os.sep + 'data'
     logfile = programdir + os.sep + 'stdout.log'
@@ -88,6 +88,8 @@ def run_program(doc):
     # open(logfile, 'w')
     # os.chmod(logfile, 660)
     # os.chown(logfile, 1001, 1000)
+    subprocess.call('mkdir -p ' + programdir)
+    subprocess.call('sudo chown user:easyctf ' + programdir)
     subprocess.call('sudo -u user touch ' + logfile, shell=True)
     subprocess.call('sudo chown user:easyctf ' + programdir + os.sep + 'stdout.log', shell=True)
     subprocess.call('sudo chmod 664 ' + programdir + os.sep + 'stdout.log', shell=True)
