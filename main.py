@@ -78,18 +78,26 @@ def run_program(doc):
     os.chdir(BASE_DIR)
     token = doc['token']
     language = doc['language']
+    program = doc['program']
 
     programdir = BASE_DIR + os.sep + 'programs' + os.sep + token
     envdir = programdir + os.sep + 'env'
     datadir = programdir + os.sep + 'data'
     logfile = programdir + os.sep + 'stdout.log'
 
+    os.makedirs(programdir, 0o777)
+    os.popen("sudo chown user:easyctf " + programdir)
+    os.makedirs(programdir + os.sep + "env", 0o777)
+    os.makedirs(programdir + os.sep + "data", 0o750)
+    file = open(programdir + os.sep + "env" + os.sep + "program." + extensions[language], "w")
+    file.write(program + "\n")
+    file.close()
+
+
     # create output file
     # open(logfile, 'w')
     # os.chmod(logfile, 660)
     # os.chown(logfile, 1001, 1000)
-    subprocess.call('mkdir -p ' + programdir, shell=True)
-    subprocess.call('sudo chown user:easyctf ' + programdir, shell=True)
     subprocess.call('sudo -u user touch ' + logfile, shell=True)
     subprocess.call('sudo chown user:easyctf ' + logfile, shell=True)
     subprocess.call('sudo chmod 664 ' + logfile, shell=True)
