@@ -56,7 +56,7 @@ def program_return(doc, token, signal, message, programdir, logfile):
         update['flag'] = flag
     db.programs.update_one({'token': token}, {'$set': update})
     os.chdir(BASE_DIR)
-    shutil.rmtree('/programs' + os.sep + token)
+    shutil.rmtree(programdir)
 
 
 # to be implemented
