@@ -49,7 +49,7 @@ def program_return(doc, token, signal, message, logfile):
         'done': True,
         'signal': signal,
         'message': message,
-        'log': logfile.read()
+        'log': open(logfile, 'r').read()
     }
     if update['signal'] == '*':
         flag = db.problems.find_one({'pid': pid})['flag']
