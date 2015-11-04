@@ -21,10 +21,10 @@ def strChanger(s, a):
             if i + 1 < len(s) and (i + 1) % x == 0:
                 if ord(sList[i + 1]) < 122 and ord(sList[i + 1]) >= 90:
                     sList[i + 1] = chr(ord(sList[i + 1]) + 1)
-                elif ord(sList[i + 1]) == 122:
-                    sList[i + 1] = chr(97)
                 elif ord(sList[i + 1]) < 90 and ord(sList[i + 1]) >= 65:
                     sList[i + 1] = chr(ord(sList[i + 1]) + 1)
+                if ord(sList[i + 1]) == 122:
+                    sList[i + 1] = chr(97)
                 elif ord(sList[i + 1]) == 90:
                     sList[i + 1] = chr(65)
     newS = "".join(sList)
