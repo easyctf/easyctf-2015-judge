@@ -23,6 +23,7 @@ for envvar in REQUIRED_ARGUMENTS:
         locals()[envvar] = os.environ[envvar]
 
 JUDGE_TIMEOUT = 60
+CLAIMEDN_THRESHOLD = 4
 
 db = pymongo.MongoClient('beta.easyctf.com', 27017).easyctf
 db.authenticate(DB_USER, DB_PASS)
@@ -43,6 +44,7 @@ signals:
 - l: Language not implemented
 - m: Program is missing
 - t: Program timed out
+- s: Program tried too many times, thrown out
 '''
 
 def program_return(doc, token, signal, message, programdir, logfile):
@@ -53,7 +55,7 @@ def program_return(doc, token, signal, message, programdir, logfile):
             'done': True,
             'signal': signal,
             'message': message,
-            'log': open(logfile, 'r').read(),
+            'log': '' if logfile is None else open(logfile, 'r').read(),
             'grader': HOSTNAME
         }
         if update['signal'] == '*':
@@ -62,8 +64,9 @@ def program_return(doc, token, signal, message, programdir, logfile):
         db.programs.update_one({'token': token}, {'$set': update})
     else:
         print('Program already graded')
-    os.chdir(BASE_DIR)
-    shutil.rmtree(programdir)
+    if signal != 's':
+        os.chdir(BASE_DIR)
+        shutil.rmtree(programdir)
 
 
 # to be implemented
@@ -301,8 +304,19 @@ if __name__ == "__main__":
         }).sort(list({'timestamp': 1}.items())).limit(1)
         if possticket.count():
             ticket = possticket[0]
-            print('Running program %s' % ticket['token'])
-            db.programs.update_one({'token': ticket['token']}, {'$set': {'claimed': int(time.time())}})
+            claimedn = 1 if 'claimedn' not in ticket else ticket['claimedn'] + 1
+            print('Running program %s, claimedn: %d' % (ticket['token'], claimedn))
+            update = {
+                '$set': {
+                    'claimed': int(time.time()),
+                    'claimedn': claimedn
+                }
+            }
+            db.programs.update_one({'token': ticket['token']}, update)
+            if claimedn >= CLAIMEDN_THRESHOLD:
+                print("Program reaches claimedn threshold")
+                program_return(ticket, ticket['token'], 's', 'Program reached judge tried threshold', None, None)
+                continue
             try:
                 run_program(ticket)
             except:
