@@ -4,9 +4,7 @@ import string
 
 import traceback
 
-import imp
-
-common = imp.load_source("common", "/home/easyctf/easyctf/api/program-data/generators/common.py")
+import generators.common
 
 
 def generate(full_path):

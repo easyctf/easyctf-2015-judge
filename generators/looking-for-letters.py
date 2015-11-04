@@ -1,9 +1,7 @@
 import os
 import random
 
-import imp
-
-common = imp.load_source("common", "/home/easyctf/easyctf/api/program-data/generators/common.py")
+import generators.common
 
 
 def insert(original, new, pos):
