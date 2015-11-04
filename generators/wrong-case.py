@@ -4,7 +4,7 @@ import string
 
 import traceback
 
-import generators.common
+from generators import common
 
 
 def generate(full_path):

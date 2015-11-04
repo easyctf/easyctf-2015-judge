@@ -1,7 +1,7 @@
 import os
 import random
 
-import generators.common
+from generators import common
 
 
 def pig_latin(string):

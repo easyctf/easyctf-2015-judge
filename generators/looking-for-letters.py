@@ -1,7 +1,7 @@
 import os
 import random
 
-import generators.common
+from generators import common
 
 
 def insert(original, new, pos):
