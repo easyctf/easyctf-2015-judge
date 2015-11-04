@@ -47,7 +47,7 @@ signals:
 
 def program_return(doc, token, signal, message, programdir, logfile):
     ticket = db.programs.find({"token": token})
-    if not ticket['done']:
+    if 'done' not in ticket or not ticket['done']:
         pid = ticket['pid']
         update = {
             'done': True,
