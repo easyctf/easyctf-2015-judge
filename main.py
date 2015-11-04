@@ -60,6 +60,8 @@ def program_return(doc, token, signal, message, programdir, logfile):
             flag = db.problems.find_one({'pid': pid})['flag']
             update['flag'] = flag
         db.programs.update_one({'token': token}, {'$set': update})
+    else:
+        print('Program already graded')
     os.chdir(BASE_DIR)
     shutil.rmtree(programdir)
 
