@@ -5,6 +5,7 @@ import os.path
 import shutil
 from threading import Timer
 import subprocess
+import sys
 
 import pymongo
 
@@ -322,5 +323,6 @@ if __name__ == "__main__":
                 run_program(ticket)
             except:
                 print('Program run failed.')
+            sys.stdout.flush()
         else:
             time.sleep(0.5)
