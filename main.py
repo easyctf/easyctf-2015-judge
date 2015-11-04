@@ -315,7 +315,7 @@ if __name__ == "__main__":
             db.programs.update_one({'token': ticket['token']}, update)
             if claimedn >= CLAIMEDN_THRESHOLD:
                 print("Program reaches claimedn threshold")
-                program_return(ticket, ticket['token'], 's', 'Program reached judge tried threshold', None, None)
+                program_return(ticket, ticket['token'], 't', 'Program timed out', None, None)
                 continue
             try:
                 run_program(ticket)
