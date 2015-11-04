@@ -132,12 +132,13 @@ def run_program(doc):
     original_cwd = os.getcwd()
     os.chdir(envdir)
     print(os.getcwd())
+    void = open('/dev/null', 'r')
     if language == 'c':
         program_return(doc, token, 'l', 'Language not implemented', programdir, logfile)
         return
     elif language == 'java':
         try:
-            output = subprocess.check_output('sudo -u user javac ' + filename, shell=True)
+            output = subprocess.check_output('sudo -u user javac ' + filename, shell=True, stdin=void)
             debug(logfile, 'Compiled.\n')
         except subprocess.CalledProcessError as error:
             debug(logfile, 'Failed to compile.\n')
@@ -146,7 +147,7 @@ def run_program(doc):
             return
     elif language == 'python3':
         try:
-            output = subprocess.check_output('sudo -u user python3 -m py_compile ' + filename, shell=True)
+            output = subprocess.check_output('sudo -u user python3 -m py_compile ' + filename, shell=True, stdin=void)
             debug(logfile, 'Compiled.\n')
         except subprocess.CalledProcessError as error:
             # shiet
@@ -156,7 +157,7 @@ def run_program(doc):
             return
     elif language == 'python2':
         try:
-            output = subprocess.check_output('sudo -u user python -m py_compile ' + filename, shell=True)
+            output = subprocess.check_output('sudo -u user python -m py_compile ' + filename, shell=True, stdin=void)
             debug(logfile, 'Compiled.\n')
         except subprocess.CalledProcessError as error:
             # shiet
