@@ -24,7 +24,7 @@ sentences = [
 	"Tomorrow is always fresh with no mistakes in it",
 	"I would always rather be happy than dignified",
 	"It frightened him to think what must have gone to the making of her eyes",
-	"For poems are like rainbows because they escape you quickly",
+	"For poems are like rainbows because they escape me quickly",
 	"So we beat on boats against the current borne back ceaselessly into the past",
 	"It does not do well to dwell on dreams and forget to live remember that",
 	"My thoughts are stars I cannot fathom into constellations",
