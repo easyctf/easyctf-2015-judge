@@ -3,7 +3,7 @@ import os
 import random
 import string
 
-TEST_CASE_COUNT = 10
+TEST_CASE_COUNT = 20
 
 def random_string(l):
     return ''.join(random.choice(string.printable) for _ in range(l))
@@ -20,7 +20,7 @@ def encrypt(start, end):
 
 def generate(full_path):
     try:
-        for i in range(5):
+        for i in range(10):
             test_case = random_string(31)
             wtext = list(test_case)
             encrypt(0, len(wtext))
@@ -31,7 +31,7 @@ def generate(full_path):
             f = open(full_path + os.sep + "test" + str(i) + ".out", "w")
             f.write(test_solution)
             f.close()
-        for i in range(5):
+        for i in range(10):
             test_solution = random_string(31)
             wtext = list(test_solution)
             encrypt(0, len(wtext))

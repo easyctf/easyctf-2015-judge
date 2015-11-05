@@ -3,7 +3,7 @@ import os
 import random
 import string
 
-TEST_CASE_COUNT = 10
+TEST_CASE_COUNT = 20
 
 def random_string(l):
     return ''.join(random.choice(string.ascii_letters) for _ in range(l))
@@ -15,7 +15,7 @@ def encrypt(text):
 
 def generate(full_path):
     try:
-        for i in range(5):
+        for i in range(10):
             test_case = random_string(32)
             test_solution = encrypt(test_case)
             f = open(full_path + os.sep + "test" + str(i) + ".in", "w")
