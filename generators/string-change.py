@@ -20,7 +20,7 @@ def strChanger(s, a):
     for x in a:
         for i in range(len(s)):
             if i + 1 < len(s) and (i + 1) % x == 0:
-                if ord(s[i + 1]) < 122 and ord(s[i + 1]) >= 90:
+                if ord(s[i + 1]) < 122 and ord(s[i + 1]) >= 97:
                     sList[i + 1] = chr(ord(s[i + 1]) + 1)
                 elif ord(s[i + 1]) < 90 and ord(s[i + 1]) >= 65:
                     sList[i + 1] = chr(ord(s[i + 1]) + 1)
