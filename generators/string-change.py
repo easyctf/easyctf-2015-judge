@@ -23,9 +23,9 @@ def strChanger(s, a):
                     sList[i + 1] = chr(ord(sList[i + 1]) + 1)
                 elif ord(sList[i + 1]) < 90 and ord(sList[i + 1]) >= 65:
                     sList[i + 1] = chr(ord(sList[i + 1]) + 1)
-                if ord(sList[i + 1]) == 123:
+                if ord(sList[i + 1]) == 122:
                     sList[i + 1] = chr(97)
-                elif ord(sList[i + 1]) == 91:
+                elif ord(sList[i + 1]) == 90:
                     sList[i + 1] = chr(65)
     newS = "".join(sList)
     return newS
