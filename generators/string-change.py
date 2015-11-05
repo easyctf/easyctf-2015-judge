@@ -6,7 +6,7 @@ import string
 
 def makeid():
     text = "";
-    possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     for i in range(30):
         text += possible[math.floor(random.random() * len(possible))];
