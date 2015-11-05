@@ -1,5 +1,6 @@
 import os
 
+TEST_CASE_COUNT = 10
 
 def generate(full_path):
     try:

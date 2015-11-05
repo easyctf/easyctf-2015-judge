@@ -6,6 +6,7 @@ import traceback
 
 from generators import common
 
+TEST_CASE_COUNT = 10
 
 def generate(full_path):
     try:

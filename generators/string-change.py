@@ -3,6 +3,7 @@ import os
 import random
 import string
 
+TEST_CASE_COUNT = 10
 
 def makeid():
     text = "";

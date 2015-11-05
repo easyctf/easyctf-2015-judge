@@ -3,6 +3,7 @@ import random
 
 from generators import common
 
+TEST_CASE_COUNT = 10
 
 def insert(original, new, pos):
     return original[:pos] + str(new) + original[pos:]

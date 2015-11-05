@@ -197,7 +197,7 @@ def run_program(doc):
     # allow writing
     subprocess.call('sudo chmod 0777 ' + envdir, shell=True)
 
-    for i in range(10):
+    for i in range(generator.TEST_CASE_COUNT):
         # os.setuid(1000)
         # os.setgid(1000)
         try:

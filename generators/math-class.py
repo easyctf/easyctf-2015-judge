@@ -1,6 +1,8 @@
 import os
 import random
 
+TEST_CASE_COUNT = 10
+
 operations = [
     {"name": "add", "func": (lambda a, b: a + b)},
     {"name": "subtract", "func": (lambda a, b: a - b)}

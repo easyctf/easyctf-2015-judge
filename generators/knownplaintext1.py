@@ -3,6 +3,8 @@ import os
 import random
 import string
 
+TEST_CASE_COUNT = 10
+
 def random_string(l):
     return ''.join(random.choice(string.printable) for _ in range(l))
 
