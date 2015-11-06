@@ -21,6 +21,7 @@ def encrypt(start, end):
 def generate(full_path):
     try:
         for i in range(10):
+            global wtext
             test_case = random_string(31)
             wtext = list(test_case)
             encrypt(0, len(wtext))
