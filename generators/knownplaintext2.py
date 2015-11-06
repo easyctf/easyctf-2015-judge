@@ -36,10 +36,10 @@ def generate(full_path):
             wtext = list(test_solution)
             encrypt(0, len(wtext))
             test_case = ''.join(wtext)
-            f = open(full_path + os.sep + "test" + str(i) + ".in", "w")
+            f = open(full_path + os.sep + "test" + str(i + 10) + ".in", "w")
             f.write('d %s' % test_case)
             f.close()
-            f = open(full_path + os.sep + "test" + str(i) + ".out", "w")
+            f = open(full_path + os.sep + "test" + str(i + 10) + ".out", "w")
             f.write(test_solution)
             f.close()
         return 1

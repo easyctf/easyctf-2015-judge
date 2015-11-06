@@ -27,10 +27,10 @@ def generate(full_path):
         for i in range(10):
             test_solution = random_string(32)
             test_case = encrypt(test_solution)
-            f = open(full_path + os.sep + "test" + str(i) + ".in", "w")
+            f = open(full_path + os.sep + "test" + str(i + 10) + ".in", "w")
             f.write('d %s' % test_case)
             f.close()
-            f = open(full_path + os.sep + "test" + str(i) + ".out", "w")
+            f = open(full_path + os.sep + "test" + str(i + 10) + ".out", "w")
             f.write(test_solution)
             f.close()
         return 1
