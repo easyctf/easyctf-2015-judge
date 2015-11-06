@@ -18,16 +18,16 @@ def makeid():
 def strChanger(s, a):
     sList = list(s)
     for x in a:
-    for i in range(len(s)):
-        if i < len(s) and (i+1)%x == 0:
-            if ord(sList[i]) < 122 and ord(sList[i]) >= 97:
-                sList[i] = chr(ord(sList[i])+1)
-            elif ord(sList[i]) == 122:
-                sList[i] = chr(97)
-            elif ord(sList[i]) < 90 and ord(sList[i]) >= 65:
-                sList[i] = chr(ord(sList[i])+1)
-            elif ord(sList[i]) == 90:
-                sList[i] = chr(65)
+        for i in range(len(s)):
+            if i < len(s) and (i+1)%x == 0:
+                if ord(sList[i]) < 122 and ord(sList[i]) >= 97:
+                    sList[i] = chr(ord(sList[i])+1)
+                elif ord(sList[i]) == 122:
+                    sList[i] = chr(97)
+                elif ord(sList[i]) < 90 and ord(sList[i]) >= 65:
+                    sList[i] = chr(ord(sList[i])+1)
+                elif ord(sList[i]) == 90:
+                    sList[i] = chr(65)
     newS = "".join(sList)
     return newS
 
