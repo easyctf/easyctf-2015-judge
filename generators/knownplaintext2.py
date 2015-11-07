@@ -2,10 +2,12 @@ import binascii
 import os
 import random
 import string
+import time
 
 TEST_CASE_COUNT = 20
 
 def random_string(l):
+    random.seed(time.time())
     return ''.join(random.choice(string.printable) for _ in range(l))
 
 wtext = []
@@ -20,8 +22,8 @@ def encrypt(start, end):
 
 def generate(full_path):
     try:
+        global wtext
         for i in range(10):
-            global wtext
             test_case = random_string(random.randint(10, 31))
             wtext = list(test_case)
             encrypt(0, len(wtext))
