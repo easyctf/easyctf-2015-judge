@@ -24,7 +24,7 @@ def generate(full_path):
     try:
         global wtext
         for i in range(10):
-            test_case = random_string(random.randint(10, 31))
+            test_case = random_string(random.randint(10, 31 + i * 100))
             wtext = list(test_case)
             encrypt(0, len(wtext))
             test_solution = ''.join(wtext)
@@ -35,7 +35,7 @@ def generate(full_path):
             f.write(test_solution)
             f.close()
         for i in range(10):
-            test_solution = random_string(random.randint(10, 31))
+            test_solution = random_string(random.randint(10, 31 + i * 100))
             wtext = list(test_solution)
             encrypt(0, len(wtext))
             test_case = ''.join(wtext)
