@@ -6,6 +6,7 @@ import string
 TEST_CASE_COUNT = 20
 
 def random_string(l):
+    random.seed()
     return ''.join(random.choice(string.printable) for _ in range(l))
 
 def encrypt(text):
