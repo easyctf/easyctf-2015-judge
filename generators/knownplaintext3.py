@@ -2,11 +2,12 @@ import binascii
 import os
 import random
 import string
+import time
 
 TEST_CASE_COUNT = 20
 
 def random_string(l):
-    random.seed()
+    random.seed(time.time() * 128)
     return ''.join(random.choice(string.ascii_letters) for _ in range(l))
 
 substitution = {'z': 'P', 'T': 't', 'V': 'J', 'x': 'b', 'g': 'F', 'X': 'Y', 'f': 'e', 'e': 'E', 'W': 'x', 'Q': 'p', 'H': 'D', 'P': 'q', 's': 'Z', 'l': 'u', 'N': 'n', 'E': 'g', 'o': 'i', 'n': 'c', 'Y': 'o', 'G': 'G', 'O': 'Q', 'I': 'O', 'S': 'H', 'h': 'w', 'D': 'y', 'v': 'X', 'w': 's', 'U': 'f', 'p': 'l', 'A': 'C', 't': 'U', 'Z': 'S', 'L': 'B', 'j': 'T', 'a': 'h', 'm': 'A', 'c': 'M', 'y': 'j', 'M': 'L', 'C': 'K', 'b': 'v', 'i': 'd', 'q': 'a', 'r': 'k', 'F': 'z', 'J': 'I', 'u': 'r', 'R': 'm', 'B': 'W', 'd': 'R', 'K': 'V', 'k': 'N'}

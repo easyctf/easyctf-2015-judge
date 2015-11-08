@@ -7,7 +7,7 @@ import time
 TEST_CASE_COUNT = 20
 
 def random_string(l):
-    random.seed(time.time())
+    random.seed(time.time() * 128)
     return ''.join(random.choice(string.printable) for _ in range(l))
 
 wtext = []

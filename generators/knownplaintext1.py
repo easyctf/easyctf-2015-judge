@@ -2,11 +2,12 @@ import binascii
 import os
 import random
 import string
+import time
 
 TEST_CASE_COUNT = 20
 
 def random_string(l):
-    random.seed()
+    random.seed(time.time() * 128)
     return ''.join(random.choice(string.printable) for _ in range(l))
 
 def encrypt(text):
