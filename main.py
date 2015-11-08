@@ -26,7 +26,7 @@ for envvar in REQUIRED_ARGUMENTS:
 JUDGE_TIMEOUT = 60
 CLAIMEDN_THRESHOLD = 4
 
-db = pymongo.MongoClient('beta.easyctf.com', 27017).easyctf
+db = pymongo.MongoClient('192.241.141.206', 27017).easyctf
 db.authenticate(DB_USER, DB_PASS)
 
 extensions = {
