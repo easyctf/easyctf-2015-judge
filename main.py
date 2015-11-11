@@ -259,8 +259,8 @@ def run_program(doc):
             return
 
         correctoutput = datadir + os.sep + 'test' + str(i) + '.out'
-        answer = actualoutput.read()
-        correct = correctoutput.read()
+        answer = open(actualoutput, 'r').read()
+        correct = open(correctoutput, 'r').read()
         if answer == correct:
             debug(logfile, 'Test ' + str(i + 1) + ' correct!\n')
             print('***Test %d completed!***' % (i + 1))
