@@ -259,7 +259,9 @@ def run_program(doc):
             return
 
         correctoutput = datadir + os.sep + 'test' + str(i) + '.out'
-        if filecmp.cmp(actualoutput, correctoutput):
+        answer = actualoutput.read()
+        correct = correctoutput.read()
+        if answer == correct:
             debug(logfile, 'Test ' + str(i + 1) + ' correct!\n')
             print('***Test %d completed!***' % (i + 1))
             continue
@@ -268,9 +270,9 @@ def run_program(doc):
             debug(logfile, 'Program input:')
             debug(logfile, repr(open(testfile).read()))
             debug(logfile, 'Expected output:')
-            debug(logfile, repr(open(correctoutput).read()))
+            debug(logfile, repr(correct))
             debug(logfile, 'Your program output:')
-            debug(logfile, repr(open(actualoutput).read()))
+            debug(logfile, repr(answer))
             program_return(doc, token, 'x', 'You got the problem wrong. Check the log for details.', programdir, logfile)
             return
         print('FINISHED')
